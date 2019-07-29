@@ -1,7 +1,7 @@
 import firebase from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
-const db = firebase.database()
-const postsRef = db.ref('/posts')
+const db = firebase.firestore()
+const postsCollection = db.collection('posts')
 
 export const state = () => ({
   posts: []
@@ -14,9 +14,16 @@ export const getters = {
 }
 
 export const actions = {
-  INIT_POSTS() {
-    firestoreAction(({ bindFirestoreRef }) => {
-      bindFirestoreRef('posts', postsRef)
-    })
-  }
+  
+  initPosts: firestoreAction(({ bindFirestoreRef }) => {
+    bindFirestoreRef('posts', postsCollection)
+  }),
+
+  addPost: firestoreAction((context, data) => {
+    postsCollection.add(data)
+    .then((doc => {
+      console.log(doc.id)
+    }))
+  }),
+
 }

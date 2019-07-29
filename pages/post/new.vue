@@ -30,15 +30,15 @@
       </div>
       <button
         type="button" 
-        @click="start()" 
+        @click="startRecording()" 
       >
         start!!
       </button>
-      <button @click="stop()">
+      <button @click="stopRecording()">
         stop!!
       </button>
       <audio 
-        v-if="formData.audioData" 
+        v-if="previewAudioData" 
         :src="previewAudioData"
         controls 
       />
@@ -46,7 +46,7 @@
       </div>
       <div class="submit_button__container">
       <button class="submit_button"
-        @click="addMemo()">
+        @click="addPost()">
         送信
       </button>
     </div>
@@ -55,6 +55,7 @@
 
 <script>
 import record from '~/utils/record'
+import { mapActions } from 'vuex'
 
 export default {
   layout: 'body',
@@ -63,24 +64,24 @@ export default {
       inputText: "",
       inputTitle: "",
       inputUserName: "",
-      audioData: null
     },
     previewAudioData: null
   }),
+  created() {
+    this.initPosts()
+  },
   methods: {
-    addMemo() {
-      console.log(this.formData);
-      // this.firebaseに追加(this.formData)
-      
-      // this.formData.inputText = ""
-      // this.formData.inputTitle = ""
-      // this.formData.inputUserName = ""
-      // this.formData.audioData = ""
+    ...mapActions('post', [
+      'initPosts',
+      'addPost',
+    ]),
+    addPost() {
+      this.addPost(this.formData)
     },
-    start() {
+    startRecording() {
       record.recStart()
     },
-    async stop() {
+    async stopRecording() {
       const res = await record.stopRecording()
       // 送信するファイルは変換前のデータ
       this.formData.audioData = res
