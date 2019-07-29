@@ -19,7 +19,7 @@ export const actions = {
     bindFirestoreRef('posts', postsCollection)
   }),
 
-  addPostsToFB: firestoreAction((context, data) => {
+  addPost: firestoreAction((context, data) => {
     postsCollection.add(data)
     .then((doc => {
       console.log(doc.id)
