@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 export default {
   mode: 'spa',
@@ -28,11 +29,13 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/firebase',
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Build configuration
