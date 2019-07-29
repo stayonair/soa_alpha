@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p></p>
+    <p>{{ $route.params }}</p>
   </div>
 </template>
 
