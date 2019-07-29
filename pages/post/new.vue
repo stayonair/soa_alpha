@@ -28,8 +28,23 @@
           class="textarea_item"
           v-model="formData.inputText" />
       </div>
-    </div>
-    <div class="submit_button__container">
+      <button
+        type="button" 
+        @click="start()" 
+      >
+        start!!
+      </button>
+      <button @click="stop()">
+        stop!!
+      </button>
+      <audio 
+        v-if="formData.audioData" 
+        :src="previewAudioData"
+        controls 
+      />
+
+      </div>
+      <div class="submit_button__container">
       <button class="submit_button"
         @click="addMemo()">
         送信
@@ -39,22 +54,39 @@
 </template>
 
 <script>
+import record from '~/utils/record'
+
 export default {
   layout: 'body',
   data: () => ({
     formData: {
       inputText: "",
       inputTitle: "",
-      inputUserName: ""
-    }
+      inputUserName: "",
+      audioData: null
+    },
+    previewAudioData: null
   }),
   methods: {
     addMemo() {
       console.log(this.formData);
       // this.firebaseに追加(this.formData)
-      this.formData.inputText = ""
-      this.formData.inputTitle = "",
-      this.formData.inputUserName = ""
+      
+      // this.formData.inputText = ""
+      // this.formData.inputTitle = ""
+      // this.formData.inputUserName = ""
+      // this.formData.audioData = ""
+    },
+    start() {
+      record.recStart()
+    },
+    async stop() {
+      const res = await record.stopRecording()
+      // 送信するファイルは変換前のデータ
+      this.formData.audioData = res
+      // プレビュー用に blob データを DOMString に変換
+      const url = URL.createObjectURL(res)
+      this.previewAudioData = url
     }
   }
 }
