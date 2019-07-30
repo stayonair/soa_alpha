@@ -2,10 +2,6 @@
   <div class="container">
     <p>新規登録</p>
     <div class="input__container">
-<<<<<<< HEAD
-=======
-      {{ formData }}
->>>>>>> master
       <div class="input__box">
         <p>タイトル</p>
         <p>
