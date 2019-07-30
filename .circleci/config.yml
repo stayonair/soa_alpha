@@ -41,11 +41,3 @@ jobs:
           name: Build
           command: npm run build
       - save_npm
-
-workflows:
-  pull-request:
-    jobs:
-      - setup
-      - lint:
-          requires:
-            - setup
