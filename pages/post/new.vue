@@ -2,6 +2,10 @@
   <div class="container">
     <p>新規登録</p>
     <div class="input__container">
+<<<<<<< HEAD
+=======
+      {{ formData }}
+>>>>>>> master
       <div class="input__box">
         <p>タイトル</p>
         <p>
@@ -73,10 +77,16 @@ export default {
   methods: {
     ...mapActions('post', [
       'initPosts',
-      'addPost',
+      'addPostToFB',
     ]),
     addPost() {
-      this.addPost(this.formData)
+      this.addPostToFB(this.formData)
+      this.formData = {
+        inputText: "",
+        inputTitle: "",
+        inputUserName: "",
+      }
+      this.previewAudioData = null
     },
     startRecording() {
       record.recStart()
@@ -84,7 +94,8 @@ export default {
     async stopRecording() {
       const res = await record.stopRecording()
       // 送信するファイルは変換前のデータ
-      this.formData.audioData = res
+      // TODO- firestorage に送信準備できたら戻す
+      // this.formData.audioData = res
       // プレビュー用に blob データを DOMString に変換
       const url = URL.createObjectURL(res)
       this.previewAudioData = url
