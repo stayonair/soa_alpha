@@ -1,4 +1,9 @@
 require('dotenv').config()
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/soa_alpha/'
+  }
+} : {}
 
 export default {
   mode: 'spa',
@@ -40,6 +45,7 @@ export default {
   /*
   ** Build configuration
   */
+  ...routerBase,
   build: {
     /*
     ** You can extend webpack config here
