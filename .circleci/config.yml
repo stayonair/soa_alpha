@@ -31,17 +31,6 @@ jobs:
           command: npm install
       - save_npm
 
-  lint:
-    executor:
-      name: default
-    steps:
-      - checkout
-      - restore_npm
-      - run: 
-          name: Lint
-          command: npm run lint
-      - save_npm
-
   build:
     executor:
       name: default
@@ -60,6 +49,3 @@ workflows:
       - lint:
           requires:
             - setup
-      - build:
-          requires:
-            - lint
