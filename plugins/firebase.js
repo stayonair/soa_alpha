@@ -7,7 +7,7 @@ const config = {
   authDomain: process.env.AUTHDOMAIN,
   databaseURL: process.env.DATABASEURL,
   projectId: 'soa-alpha',
-  storageBucket: process.env.STORAGEBUCKET,
+  storageBucket: 'soa-alpha.appspot.com',
   messagingSenderId: process.env.MESSAGINGSENDERID,
   appId: process.env.APPID,
 }
