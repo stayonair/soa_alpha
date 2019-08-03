@@ -7,7 +7,7 @@
         <p>
           <input
             class=input_item
-            v-model="formData.inputTitle"
+            v-model="formData.postTitle"
             type="text"
           >
         </p>
@@ -17,7 +17,7 @@
         <p>
           <input
             class=input_item
-            v-model="formData.inputUserName"
+            v-model="formData.userName"
             type="text"
           >
         </p>
@@ -26,7 +26,7 @@
         <p>内容</p>
         <textarea
           class="textarea_item"
-          v-model="formData.inputText" />
+          v-model="formData.postText" />
       </div>
       <button
         type="button" 
@@ -54,17 +54,24 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
 import record from '~/utils/record'
 import { mapActions } from 'vuex'
+
+// storage のフォルダは uid で管理
+// ref(uid)
+const storageRef = firebase.storage().ref()
 
 export default {
   layout: 'body',
   data: () => ({
     formData: {
-      inputText: "",
-      inputTitle: "",
-      inputUserName: "",
+      postText: "",
+      postTitle: "",
+      userName: "",
+      audioUrl: "",
     },
+    rawAudioData: null,
     previewAudioData: null
   }),
   created() {
@@ -75,27 +82,57 @@ export default {
       'initPosts',
       'addPostToFB',
     ]),
-    addPost() {
-      this.addPostToFB(this.formData)
+    getRandomNumber() {
+      return [...Array(2)].reduce((acc, cur) => {
+        return acc + (Math.random().toString(32).slice(-6)).toString()
+      }, '')
+    },
+    async uploadAudioData(data) {
+      const fileName = this.getRandomNumber()
+      console.log(fileName)
+      const audioRef = storageRef.child(fileName)
+
+      // storageにファイルをアップ
+      await audioRef.put(data).then(snapshot => {
+        console.log(`added firebase storage: ${snapshot.state}!!`)
+      })
+
+      // アップしたファイルのダウンロードURLを取得 
+      await audioRef.getDownloadURL().then(url => {
+        this.formData.audioUrl = url
+      })
+    },
+    async addPost() {
+      await this.uploadAudioData(this.rawAudioData)
+      // await this.addPostToFB(this.formData)
+
       this.formData = {
-        inputText: "",
-        inputTitle: "",
-        inputUserName: "",
+        postText: "",
+        postTitle: "",
+        userName: "",
+        audioUrl: "",
       }
+      this.rawAudioData = null
       this.previewAudioData = null
+
     },
     startRecording() {
       record.recStart()
     },
     async stopRecording() {
       const res = await record.stopRecording()
+      this.rawAudioData = res
+      
+      console.log(this.rawAudioData)
+
       // 送信するファイルは変換前のデータ
       // TODO- firestorage に送信準備できたら戻す
       // this.formData.audioData = res
       // プレビュー用に blob データを DOMString に変換
+      
       const url = URL.createObjectURL(res)
       this.previewAudioData = url
-    }
+    },
   }
 }
 </script>

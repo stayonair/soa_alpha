@@ -1,5 +1,7 @@
 import firebase from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
+import { async } from 'q';
+import { __await } from 'tslib';
 const db = firebase.firestore()
 const postsCollection = db.collection('posts')
 
@@ -19,11 +21,11 @@ export const actions = {
     bindFirestoreRef('posts', postsCollection)
   }),
 
-  addPostToFB: firestoreAction((context, data) => {
-    postsCollection.add(data)
+   addPostToFB: firestoreAction(async (context, data) => {
+    await postsCollection.add(data)
     .then((doc => {
-      console.log(doc.id)
+      console.log(`added firebase collection ${doc.id}`)
     }))
-  }),
+  })
 
 }
