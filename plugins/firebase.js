@@ -4,10 +4,10 @@ import 'firebase/firebase-storage'
 
 const config = {
   apiKey: process.env.APIKEY,
-  authDomain: process.env.AUTHDOMAIN,
-  databaseURL: process.env.DATABASEURL,
+  authDomain: 'soa-alpha.firebaseapp.com',
+  databaseURL: 'https://soa-alpha.firebaseio.com',
   projectId: 'soa-alpha',
-  storageBucket: process.env.STORAGEBUCKET,
+  storageBucket: 'soa-alpha.appspot.com',
   messagingSenderId: process.env.MESSAGINGSENDERID,
   appId: process.env.APPID,
 }
