@@ -104,7 +104,7 @@ export default {
     },
     async addPost() {
       await this.uploadAudioData(this.rawAudioData)
-      // await this.addPostToFB(this.formData)
+      await this.addPostToFB(this.formData)
 
       this.formData = {
         postText: "",
