@@ -30,7 +30,7 @@
       </div>
       <button
         type="button" 
-        @click="startRecording()" 
+        @click="startRecording()"
       >
         start!!
       </button>
@@ -50,6 +50,8 @@
         送信
       </button>
     </div>
+
+    <button @click="getRandomNumber()">生成</button>
   </div>
 </template>
 
@@ -66,9 +68,10 @@ export default {
   layout: 'body',
   data: () => ({
     formData: {
-      postText: "",
+      postId: "",
       postTitle: "",
       userName: "",
+      postText: "",
       audioUrl: "",
     },
     rawAudioData: null,
@@ -82,15 +85,16 @@ export default {
       'initPosts',
       'addPostToFB',
     ]),
-    getRandomNumber() {
-      return [...Array(2)].reduce((acc, cur) => {
+    // ランダムの ID を生成して、postId に代入f
+    createPostId() {
+      const id = [...Array(2)].reduce((acc, cur) => {
         return acc + (Math.random().toString(32).slice(-6)).toString()
       }, '')
+      this.formData.postId = id
     },
     async uploadAudioData(data) {
-      const fileName = this.getRandomNumber()
-      console.log(fileName)
-      const audioRef = storageRef.child(fileName)
+      this.createPostId()
+      const audioRef = storageRef.child(this.formData.postId)
 
       // storageにファイルをアップ
       await audioRef.put(data).then(snapshot => {
@@ -107,9 +111,10 @@ export default {
       await this.addPostToFB(this.formData)
 
       this.formData = {
-        postText: "",
+        postId: "",
         postTitle: "",
         userName: "",
+        postText: "",
         audioUrl: "",
       }
       this.rawAudioData = null
@@ -123,11 +128,7 @@ export default {
       const res = await record.stopRecording()
       this.rawAudioData = res
       
-      console.log(this.rawAudioData)
-
       // 送信するファイルは変換前のデータ
-      // TODO- firestorage に送信準備できたら戻す
-      // this.formData.audioData = res
       // プレビュー用に blob データを DOMString に変換
       
       const url = URL.createObjectURL(res)
