@@ -22,10 +22,7 @@ export const actions = {
   }),
 
    addPostToFB: firestoreAction(async (context, data) => {
-    await postsCollection.add(data)
-    .then((doc => {
-      console.log(`added firebase collection ${doc.id}`)
-    }))
+    await postsCollection.doc(data.postId).set(data)
   })
 
 }
