@@ -15,19 +15,12 @@ const db = firebase.firestore()
 const postsCollection = db.collection('posts')
 
 export default {
-  data: () => ({
-    postId: '',
-    postTitle: '',
-    userName: '',
-    postText: '',
-    audioUrl: '',
-  }),
   async asyncData({ params }) {
     const id = params.id
     const { postId, postTitle, userName, postText, audioUrl } = 
     await postsCollection.doc(id).get().then(doc => doc.data())
       return { postId, postTitle, userName, postText, audioUrl }
-  },
+  }
 }
 </script>
 

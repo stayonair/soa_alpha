@@ -6,7 +6,7 @@ const db = firebase.firestore()
 const postsCollection = db.collection('posts')
 
 export const state = () => ({
-  posts: [],
+  posts: []
 })
 
 export const getters = {
