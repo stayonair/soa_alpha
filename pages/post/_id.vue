@@ -10,7 +10,6 @@
 
 <script>
 import firebase from '~/plugins/firebase'
-// import { mapActions, mapGetters } from 'vuex'
 
 const db = firebase.firestore()
 const postsCollection = db.collection('posts')
@@ -29,20 +28,6 @@ export default {
     await postsCollection.doc(id).get().then(doc => doc.data())
       return { postId, postTitle, userName, postText, audioUrl }
   },
-
-  // 一応 vuexfire の関数も残しておきます
-  // ↓↓↓↓↓
-  // computed: {
-  //   ...mapGetters('post', [
-  //     'post'
-  //   ])
-  // },
-  // methods: {
-  //   ...mapActions('post', [
-  //     'getPost'
-  //   ]),
-  // }
-  
 }
 </script>
 
