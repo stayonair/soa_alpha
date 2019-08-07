@@ -5,7 +5,7 @@
       v-for="(post, index) in posts"
       :key="index"
     >
-      <p>ポストID: {{ post.postId }}</p>
+      <p @click="linkToPostPage(post.postId)">ポストID: {{ post.postId }}</p>
       <p>タイトル: {{ post.postTitle }}</p>
       <p>ユーザー: {{ post.userName }}</p>
       <p>内容: {{ post.postText }}</p>
@@ -31,7 +31,10 @@ export default {
   methods: {
     ...mapActions('post', [
       'initPosts'
-    ])
+    ]),
+    linkToPostPage(id) {
+      this.$router.push(`post/${id}`)
+    }
   }
   
 
