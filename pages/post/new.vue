@@ -50,8 +50,6 @@
         送信
       </button>
     </div>
-
-    <button @click="getRandomNumber()">生成</button>
   </div>
 </template>
 
