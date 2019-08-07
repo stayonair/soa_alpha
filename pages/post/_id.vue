@@ -23,20 +23,11 @@ export default {
     postText: '',
     audioUrl: '',
   }),
-  created() {
-    // URLパラメータを取得
-    const id = this.$nuxt.$route.params.id
-
-    // this.getPost(id)
-
-    postsCollection.doc(id).get().then(doc => {
-      const data = doc.data()
-      this.postId = data.postId
-      this.postTitle = data.postTitle
-      this.userName = data.userName
-      this.postText = data.postText
-      this.audioUrl = data.audioUrl
-    })
+  async asyncData({ params }) {
+    const id = params.id
+    const { postId, postTitle, userName, postText, audioUrl } = 
+    await postsCollection.doc(id).get().then(doc => doc.data())
+      return { postId, postTitle, userName, postText, audioUrl }
   },
 
   // 一応 vuexfire の関数も残しておきます
