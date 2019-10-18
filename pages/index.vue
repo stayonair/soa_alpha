@@ -26,7 +26,6 @@ export default {
     ...mapGetters('post',[
       'posts'
     ]),
-
   },
   methods: {
     ...mapActions('post', [
@@ -36,11 +35,5 @@ export default {
       this.$router.push(`post/${id}`)
     }
   }
-  
-
 }
 </script>
-
-<style>
-
-</style>
